@@ -17,7 +17,8 @@ public class UserTokenService {
     private UserService userService;
 
     public String getTokenById(Long id){
-        return userTokenRepository.findByUser_id(id).getToken();
+        if(userTokenRepository.findByUser_id(id)!=null) return userTokenRepository.findByUser_id(id).getToken();
+        else return null;
     }
     public UserTokenEntity getTokenByUser(UserEntity userEntity){
         return userTokenRepository.findByUser_id(userEntity.getId());
@@ -38,7 +39,7 @@ public class UserTokenService {
                       public void run() {
                           deleteByUser(ent.getUserid());
                           if(!ent.getUserid().isEnabled())
-                          userService.delete(ent.getUserid().getId());
+                            userService.delete(ent.getUserid().getId());
                           System.out.println("DELETED["+ent.getId()+"] - " + Calendar.getInstance().getTime().getTime());
                       }
 
